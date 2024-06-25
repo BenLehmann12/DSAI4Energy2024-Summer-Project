@@ -81,3 +81,17 @@ plt.ylabel('accuracy')
 plt.legend(['train','test'])
 
 plt.show()
+
+y_pred = model.predict_classes(x_tests)
+y_vals_te = np.argmax(y_tests,axis=1)
+
+def graph_function():
+    plt.figure(figsize=(12,8))
+    for i in range(10):
+        plt.subplot(2,5,i+1)
+        plt.imshow(x_tests[i],cmap='gray')
+        plt.xlabel(f"Actual: {y_vals_te[i]}\n Predicted: {y_pred[i]}")
+    plt.tight_layout()
+    plt.show()
+
+graph_function()
