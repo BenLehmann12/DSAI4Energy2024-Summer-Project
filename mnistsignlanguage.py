@@ -95,3 +95,8 @@ def graph_function():
     plt.show()
 
 graph_function()
+
+Log = LogisticRegression()
+log.fit(x_train,y_train)
+
+log_pred = log.predict(x_tests)
