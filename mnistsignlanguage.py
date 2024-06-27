@@ -82,8 +82,8 @@ plt.legend(['train','test'])
 
 plt.show()
 
-y_pred = model.predict_classes(x_tests)
-y_vals_te = np.argmax(y_tests,axis=1)
+y_pred = model.predict(x_tests)
+y_vals_te = np.argmax(y_pred,axis=1)
 
 def graph_function():
     plt.figure(figsize=(12,8))
