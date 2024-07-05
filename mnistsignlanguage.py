@@ -111,7 +111,7 @@ def graph_function():
 graph_function()
 
 x_training, x_testing, y_training, y_testing = train_test_split(x_train_vals, labels_train, test_size = 0.3)
-Log = LogisticRegression()
+log = LogisticRegression()
 log.fit(x_training,y_training)
 
 log_pred = log.predict(x_testing)
