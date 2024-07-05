@@ -20,6 +20,9 @@ from keras.preprocessing.image import ImageDataGenerator
 train = pd.read_csv('sign_mnist_train.csv')
 test = pd.read_csv('sign_mnist_test.csv')
 
+train_copy = train.copy()
+test_copy = test.copy()
+
 y_train=train['label']
 x_train=train.drop(['label'],axis=1).values
 y_test=test['label']
@@ -29,6 +32,17 @@ x_train = x_train / 255
 x_test = x_test / 255
 x_train =x_train.reshape(-1,28,28,1)
 x_test = x_test.reshape(-1,28,28,1)
+
+y_train_vals=train['label']
+x_train_vals=train.drop(['label'],axis=1).values
+y_test_vals=test['label']
+x_test_vals=test.drop(['label'],axis=1).values
+
+x_train_vals = x_train_vals / 255
+x_test_vals = x_test_vals / 255
+x_train_vals =x_train_vals.reshape(-1,28,28,1)
+x_test_vals = x_test_vals.reshape(-1,28,28,1)
+
 
 plt.imshow(x_train[0].reshape(28,28))
 
@@ -96,7 +110,8 @@ def graph_function():
 
 graph_function()
 
+x_training, x_testing, y_training, y_testing = train_test_split(x_train_vals, labels_train, test_size = 0.3)
 Log = LogisticRegression()
-log.fit(x_train,y_train)
+log.fit(x_training,y_training)
 
-log_pred = log.predict(x_tests)
+log_pred = log.predict(x_testing)
