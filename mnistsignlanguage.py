@@ -8,6 +8,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import roc_auc_score,roc_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
@@ -110,8 +115,36 @@ def graph_function():
 
 graph_function()
 
+
 x_training, x_testing, y_training, y_testing = train_test_split(x_train_vals, labels_train, test_size = 0.3)
+
+def bestParametersLogistic():
+    log = LogisticRegression()
+    parameters = [{
+        'penalty': ['l1', 'l2'],
+        'C': [0.01, 0.1, 1, 10, 100],
+    }]
+    log_search = GridSearchCV(log,parameters,cv=5,scoring='accuracy')
+    log_search.fit(x_training,y_training)
+    print(log_search.best_params_)
+    
 log = LogisticRegression()
 log.fit(x_training,y_training)
 
 log_pred = log.predict(x_testing)
+
+def logistic():
+    logist = LogisticRegression(penalty='l1', solver='liblinear', C=1)
+    logist.fit(x_training,y_training)
+    log_predict = logist.predict(x_testing)
+    log_score = accuracy_score(y_testing,log_predict)*100  
+    print(log_predict)
+    print(log_score)
+    
+    #Use the ROC/AUC curve to find the Score 
+    log_prob = logist.predict_proba(x_testing)[:,1]
+    false_positive_log,true_positive_log,threshold_log = roc_curve(y_testing,log_prob)
+    auc_score = metrics.auc(false_positive_log,true_positive_log)
+    print("AUC:", auc_score)
+    plt.plot(false_positive_log,true_positive_log)
+    plt.plot([0,1], ls='--')
