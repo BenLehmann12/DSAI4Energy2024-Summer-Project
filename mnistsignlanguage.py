@@ -148,3 +148,18 @@ def logistic():
     print("AUC:", auc_score)
     plt.plot(false_positive_log,true_positive_log)
     plt.plot([0,1], ls='--')
+
+
+def RandForest():
+    randForest = RandomForestClassifier()
+    randForest.fit(x_training,y_training)
+    forest_pred = randForest.predict(x_testing)
+    forest_score = accuracy_score(y_testing,forest_pred)*100
+    print(forest_score)
+
+    y_pred_prob = randomForest.predict_proba(x_testing)[:, 1]
+    false_positive_log,true_positive_log,threshold_log = roc_curve(y_testing,y_pred_prob)
+    auc_score = metrics.auc(false_positive_log,true_positive_log)
+    print("AUC:", auc_score)
+    plt.plot(false_positive_log,true_positive_log)
+    plt.plot([0,1], ls='--')
